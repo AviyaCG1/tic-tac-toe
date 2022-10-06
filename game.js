@@ -17,7 +17,24 @@ const BOARD = (function(){
         renderSquares();
     };
 
-    return{renderSquares, move};
+    const isOver = () => {
+        //rows
+        if (squares[0] == squares[1] && squares[1] == squares[2]) return squares[0];
+        if (squares[3] == squares[4] && squares[4] == squares[5]) return squares[3];
+        if (squares[6] == squares[7] && squares[7] == squares[8]) return squares[6];
+        //cols
+        if (squares[0] == squares[3] && squares[3] == squares[6]) return squares[0];
+        if (squares[1] == squares[4] && squares[4] == squares[7]) return squares[1];
+        if (squares[2] == squares[5] && squares[5] == squares[8]) return squares[2];
+        //diagonals
+        if (squares[0] == squares[4] && squares[4] == squares[8]) return squares[0];
+        if (squares[2] == squares[4] && squares[4] == squares[6]) return squares[2];
+        //keep playing or tie
+        if (squares.includes('')) return 'keep playing';
+        return 'tie';
+    };
+
+    return{renderSquares, move, isOver};
 })();
 
 const playerFactory = (name, mark) => {
@@ -38,5 +55,21 @@ const GAMEPLAY = (function(){
         currentPlayer = currentPlayer === player1 ? player2 : player1;// switch player
     };
     squareElements.forEach(square => square.addEventListener('click', clickSquare));
+
+    const whoWon = () => {
+        let result = BOARD.isOver();
+        switch (result) {
+            case player1.mark:
+                return player1.name;
+            case player2.mark:
+                return player2.name;
+            case 'tie':
+                return 'tie';
+            default:
+                return 'keep palying';
+        }
+    };
+
+    return {whoWon};
 })(player1, player2);
 
