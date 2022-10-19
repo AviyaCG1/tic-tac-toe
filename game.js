@@ -6,7 +6,7 @@ const BOARD = (function(){
         '', '', ''
     ];
     const squareElements = document.querySelectorAll('.square');
-    const renderSquares = () => {
+    const updateBoard = () => {
         squares.forEach((mark, index) => squareElements[index].innerHTML = mark);
     };
 
@@ -14,7 +14,7 @@ const BOARD = (function(){
         if(squares[index] != '') return;
         squares[index] = mark;
         squareElements[index].innerHTML = mark;
-        renderSquares();
+        updateBoard();
     };
 
     const isOver = () => {
@@ -42,7 +42,7 @@ const BOARD = (function(){
         return 'tie';
     };
 
-    return{renderSquares, move, isOver};
+    return{updateBoard, move, isOver};
 })();
 
 const playerFactory = (name, mark) => {
